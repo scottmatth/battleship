@@ -1,5 +1,8 @@
+package scott.game.battleship;
+
 import org.junit.Assert;
 import org.junit.Test;
+import scott.game.battleship.Ship;
 
 public class ShipTest {
 

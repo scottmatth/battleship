@@ -1,7 +1,10 @@
-import javafx.geometry.Orientation;
+package scott.game.battleship;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import scott.game.battleship.exceptions.OutOfBoundsException;
+import scott.game.battleship.exceptions.SpotTakenException;
 
 public class GridTest {
 
@@ -18,7 +21,7 @@ public class GridTest {
     @Test
     public void testFireMiss() throws SpotTakenException, OutOfBoundsException {
 
-        testGrid.placeShip("B", "2", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("B", "2", Grid.GridOrientation.HORIZONTAL, testShip);
         Grid.FireResult result = testGrid.fire("A", "1");
 
         Assert.assertEquals(Grid.FireResult.MISS, result);
@@ -27,7 +30,7 @@ public class GridTest {
     @Test
     public void testAddShip() throws SpotTakenException, OutOfBoundsException {
 
-        testGrid.placeShip("B", "2", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("B", "2", Grid.GridOrientation.HORIZONTAL, testShip);
 
     }
 
@@ -35,7 +38,7 @@ public class GridTest {
     @Test
     public void testFireHit() throws SpotTakenException, OutOfBoundsException {
 
-        testGrid.placeShip("B", "2", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("B", "2", Grid.GridOrientation.HORIZONTAL, testShip);
         Grid.FireResult hit = testGrid.fire("B", "2");
 
         Assert.assertEquals(Grid.FireResult.HIT, hit);
@@ -44,9 +47,9 @@ public class GridTest {
 
     @Test
     public void testKillShip() throws SpotTakenException, OutOfBoundsException {
-        testGrid.placeShip("B", "2", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("B", "2", Grid.GridOrientation.HORIZONTAL, testShip);
 
-        testGrid.placeShip("D", "3", Orientation.HORIZONTAL, new Ship(Ship.ShipType.AIRCRAFT_CARRIER));
+        testGrid.placeShip("D", "3", Grid.GridOrientation.HORIZONTAL, new Ship(Ship.ShipType.AIRCRAFT_CARRIER));
         Grid.FireResult hit1 = testGrid.fire("B", "2");
 
         Assert.assertEquals(Grid.FireResult.HIT, hit1);
@@ -61,49 +64,49 @@ public class GridTest {
 
     @Test(expected = SpotTakenException.class)
     public void testOverlap() throws SpotTakenException, OutOfBoundsException {
-        testGrid.placeShip("B", "2", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("B", "2", Grid.GridOrientation.HORIZONTAL, testShip);
 
         Ship testShip2 = new Ship(Ship.ShipType.PATROL);
 
-        testGrid.placeShip("A", "3", Orientation.VERTICAL, testShip2);
+        testGrid.placeShip("A", "3", Grid.GridOrientation.VERTICAL, testShip2);
 
     }
 
 
     @Test
     public void testOutOfBounds() throws SpotTakenException, OutOfBoundsException {
-        testGrid.placeShip("A", "1", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("A", "1", Grid.GridOrientation.HORIZONTAL, testShip);
         try {
-            testGrid.placeShip("A", "11", Orientation.HORIZONTAL, testShip);
+            testGrid.placeShip("A", "11", Grid.GridOrientation.HORIZONTAL, testShip);
             Assert.fail();
         } catch (SpotTakenException e) {
 
         } catch (OutOfBoundsException e) {
 
         }
-        testGrid.placeShip("J", "1", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("J", "1", Grid.GridOrientation.HORIZONTAL, testShip);
         try {
-            testGrid.placeShip("J", "11", Orientation.HORIZONTAL, testShip);
+            testGrid.placeShip("J", "11", Grid.GridOrientation.HORIZONTAL, testShip);
             Assert.fail();
         } catch (SpotTakenException e) {
         } catch (OutOfBoundsException e) {
         }
         try {
-            testGrid.placeShip("K", "1", Orientation.HORIZONTAL, testShip);
+            testGrid.placeShip("K", "1", Grid.GridOrientation.HORIZONTAL, testShip);
             Assert.fail();
         } catch (SpotTakenException e) {
 
         } catch (OutOfBoundsException e) {
         }
         try {
-            testGrid.placeShip("A", "0", Orientation.HORIZONTAL, testShip);
+            testGrid.placeShip("A", "0", Grid.GridOrientation.HORIZONTAL, testShip);
             Assert.fail();
         } catch (SpotTakenException e) {
         } catch (OutOfBoundsException e) {
         }
-        testGrid.placeShip("A", "8", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("A", "8", Grid.GridOrientation.HORIZONTAL, testShip);
         try {
-            testGrid.placeShip("B", "9", Orientation.HORIZONTAL, testShip);
+            testGrid.placeShip("B", "9", Grid.GridOrientation.HORIZONTAL, testShip);
             Assert.fail();
         } catch (SpotTakenException e) {
         } catch (OutOfBoundsException e) {
@@ -115,17 +118,17 @@ public class GridTest {
     @Test
     public void testAllDestroyed() throws SpotTakenException, OutOfBoundsException {
         // 3 Square Ship
-        testGrid.placeShip("B", "2", Orientation.HORIZONTAL, testShip);
+        testGrid.placeShip("B", "2", Grid.GridOrientation.HORIZONTAL, testShip);
 
         // 2 square ship
         Ship testShip2 = new Ship(Ship.ShipType.PATROL);
 
-        testGrid.placeShip("A", "5", Orientation.VERTICAL, testShip2);
+        testGrid.placeShip("A", "5", Grid.GridOrientation.VERTICAL, testShip2);
 
         // 4 square ship
         Ship testShip3 = new Ship(Ship.ShipType.BATTLESHIP);
 
-        testGrid.placeShip("B", "6", Orientation.VERTICAL, testShip3);
+        testGrid.placeShip("B", "6", Grid.GridOrientation.VERTICAL, testShip3);
 
 
         Grid.FireResult ship1Fire1 = testGrid.fire("B", "3");

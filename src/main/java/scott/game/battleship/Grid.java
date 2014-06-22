@@ -1,4 +1,7 @@
-import javafx.geometry.Orientation;
+package scott.game.battleship;
+
+import scott.game.battleship.exceptions.OutOfBoundsException;
+import scott.game.battleship.exceptions.SpotTakenException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +13,8 @@ public class Grid {
 
 
     private Map<String, Ship> shipTracker = new HashMap<String, Ship>();
+
+    public enum GridOrientation {HORIZONTAL, VERTICAL}
 
     public FireResult fire(String a, String one) {
 
@@ -42,7 +47,7 @@ public class Grid {
         return allShipsDead;
     }
 
-    public void placeShip(String row, String column, Orientation horizontal, Ship ship)
+    public void placeShip(String row, String column, GridOrientation horizontal, Ship ship)
             throws SpotTakenException, OutOfBoundsException {
 
         Collection<String> availableSpots = null;
@@ -55,7 +60,7 @@ public class Grid {
         }
     }
 
-    private Collection<String> getAvailableSpots(String row, String column, Orientation orientation, Ship ship)
+    private Collection<String> getAvailableSpots(String row, String column, GridOrientation orientation, Ship ship)
             throws SpotTakenException, OutOfBoundsException {
 
         Set<String> potentialPlacementKeys = new HashSet<String>();

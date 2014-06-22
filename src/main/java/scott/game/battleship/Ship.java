@@ -1,3 +1,5 @@
+package scott.game.battleship;
+
 public class Ship {
     private ShipType type;
     private  int hitsTaken;
